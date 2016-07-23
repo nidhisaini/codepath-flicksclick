@@ -15,6 +15,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import jp.wasabeef.picasso.transformations.RoundedCornersTransformation;
+
 
 public class MovieArrayAdapter extends ArrayAdapter<Movie> {
 
@@ -70,18 +72,18 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
         viewHolder.overview.setText(movie.getOverview());
 
         if(orientation == Configuration.ORIENTATION_PORTRAIT) {
-            Picasso.with(getContext()).load(movie.getPosterPath()).into(viewHolder.movieImage);
+            Picasso.with(getContext()).load(movie.getPosterPath()).fit().centerCrop()
+                    .placeholder(R.drawable.placeholder_img)
+                    .error(R.drawable.placeholder_error)
+                    .transform(new RoundedCornersTransformation(10, 10))
+                    .into(viewHolder.movieImage);
         }else if(orientation == Configuration.ORIENTATION_LANDSCAPE){
 
             Picasso.with(getContext()).load(movie.getBackdropPath()).fit().centerCrop()
-                    .placeholder(R.mipmap.ic_launcher)
-                    .error(R.mipmap.ic_launcher)
+                    .placeholder(R.drawable.placeholder_img)
+                    .error(R.drawable.placeholder_error)
+                    .transform(new RoundedCornersTransformation(10, 10))
                     .into(viewHolder.moveBackdropImage);
-
-            /*Picasso.with(context).load(imageUri).fit().centerCrop()
-                    .placeholder(R.drawable.user_placeholder)
-                    .error(R.drawable.user_placeholder_error)
-                    .into(imageView);*/
         }
         // Return the completed view to render on screen
         return convertView;
