@@ -24,7 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        tools:text="The Legend of Tarzan"
+        tools:text="The Legend"
         android:id="@+id/tvTitle"
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/ivMovieImage"

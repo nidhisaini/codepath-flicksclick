@@ -1,11 +1,15 @@
 package com.example.flicksclick;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ImageButton;
 import android.widget.ListView;
 
 import com.example.flicksclick.adapters.MovieArrayAdapter;
@@ -22,11 +26,13 @@ import java.util.ArrayList;
 import cz.msebera.android.httpclient.Header;
 
 public class MovieActivity extends AppCompatActivity {
-    String url = "https://api.themoviedb.org/3/movie/now_playing?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed";
+    String url = "https://api.themoviedb.org/3/movie/now_playing?api_key=188ea0ba688350f4c5c4ddf56bc354bd";
     private SwipeRefreshLayout swipeContainer;
     ArrayList<Movie> movies;
     MovieArrayAdapter movieAdapter;
     ListView lvItems;
+    ImageButton ibPlay;
+    int movieId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,8 +79,10 @@ public class MovieActivity extends AppCompatActivity {
 
                 try {
                     movieJsonResults = response.getJSONArray("results");
-                    movies.addAll(Movie.fromJSONArray(movieJsonResults));
-                    movieAdapter.notifyDataSetChanged();
+                        movies.clear();
+                        movies.addAll(Movie.fromJSONArray(movieJsonResults));
+                        movieAdapter.notifyDataSetChanged();
+
                     Log.d("DEBUG", movieJsonResults.toString());
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -88,9 +96,45 @@ public class MovieActivity extends AppCompatActivity {
             }
         });
 
+        lvItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                int pos = position;
+                //String rowid = movies.get(position);
+                String title = movies.get(pos).getOriginalTitle();
+                String releseDate = movies.get(pos).getReleaseDate();
+                String overView = movies.get(pos).getOverview();
+                double ratings = movies.get(pos).getVoteAverage();
+                String imageURL = movies.get(pos).getBackdropPath();
+                movieId = movies.get(pos).getId();
+
+                // first parameter is the context, second is the class of the activity to launch
+                Intent i = new Intent(MovieActivity.this, MovieDetailsActivity.class);
+                i.putExtra("Title", title);
+                i.putExtra("ReleaseDate", releseDate);
+                i.putExtra("Overview", overView);
+                i.putExtra("Ratings", ratings);
+                i.putExtra("ImageURL", imageURL);
+                startActivity(i); // brings up the second activity
+            }
+        });
+
+       /* ibPlay =(ImageButton)findViewById(R.id.ibPlay);
+
+        ibPlay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent i = new Intent(MovieActivity.this, VideoActivity.class);
+                i.putExtra("movieId",movieId);
+                startActivity(i);
+
+            }
+        });*/
     }
 
     private void fetchTimelineAsync(int i) {
+
          movieAdapter.notifyDataSetChanged();
         // Now we call setRefreshing(false) to signal refresh has finished
 

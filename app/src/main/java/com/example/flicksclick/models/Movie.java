@@ -15,10 +15,18 @@ public class Movie {
     String originalTitle;
     String overview;
     String backdropPath;
+    double voteAverage;
+    String releaseDate;
+    int id;
+
 
     //getters
+    public int getId() {
+        return id;
+    }
+
     public String getPosterPath() {
-        return String.format( "https://image.tmdb.org/t/p/w342/%s", posterPath);
+        return String.format("https://image.tmdb.org/t/p/w342/%s", posterPath);
     }
 
     public String getOriginalTitle() {
@@ -33,6 +41,14 @@ public class Movie {
         return String.format("https://image.tmdb.org/t/p/w780/%s", backdropPath);
     }
 
+    public double getVoteAverage() {
+        return voteAverage;
+    }
+
+    public String getReleaseDate() {
+        return releaseDate;
+    }
+
 
     //constructor object that can take a json obj and extract out fields for each property
     public Movie(JSONObject jsonObject) throws JSONException {
@@ -41,9 +57,10 @@ public class Movie {
         this.originalTitle = jsonObject.getString("title");
         this.overview = jsonObject.getString("overview");
         this.backdropPath = jsonObject.getString("backdrop_path");
-
+        this.voteAverage = jsonObject.getDouble("vote_average");
+        this.releaseDate = jsonObject.getString("release_date");
+        this.id = jsonObject.getInt("id");
     }
-
 
     //get a list of Json movies and iterate through each json array and convert each of them to a movie
     public static ArrayList<Movie> fromJSONArray(JSONArray array) {
