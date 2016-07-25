@@ -32,3 +32,6 @@ When clicking on a popular movie (i.e. a movie voted for more than 5 stars) the 
 
 Stretch: Leverage the data binding support module to bind data into one or more activity layout templates. 
 Stretch: Apply the popular ButterKnife annotation library to reduce view boilerplate.
+
+FlickClick Demo
+![flickclickdemo1](https://cloud.githubusercontent.com/assets/5497374/17090467/9673e4f6-51e5-11e6-883f-5331d5d40a75.gif)
